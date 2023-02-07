@@ -8,6 +8,14 @@
  * - Editable todos: clicking the edit button will allow the user to edit the item
  * - Todos filtering
  * - Mark as Complete: clicking on a todo item will display a strike through text
+ *
+ * Know bug:
+ *  Adding a todo item require a refesh to load
+ * Fix: adding a line of code to refresh the page
+ *  Pros: fix the problem
+ *  Cons: Not UX Friendly
+ *
+ *Note: Please use localhost3000 to test this project. the built-in stackblitz view doesn't work
  */
 
 import { Index } from "faunadb";
@@ -95,6 +103,8 @@ const Todo = () => {
             setInputValue("");
           })
           .catch(error => console.error(error));
+          window.location.reload();
+
       } else {
         alert("Todo already exists");
       }
