@@ -9,6 +9,8 @@
  * - Todos filtering
  * - Mark as Complete: clicking on a todo item will display a strike through text
  *
+ * The CRUD apis are implemented in /api/todo.js 
+ * 
  * Know bug:
  *  Adding a todo item require a refesh to load
  * Fix: adding a line of code to refresh the page
