@@ -11,6 +11,7 @@ export default function handler(req, res) {
       {
         console.log("method is POST");
         const todo = req.body;
+        const createddate =new Date().toString();
         console.log(todo)
         client
           .query(
@@ -18,12 +19,13 @@ export default function handler(req, res) {
               data: {
                 todo: todo.todo,
                 isCompleted: todo.isCompleted,
-                createdAt: new Date()
+                createdAt: createddate,
+                test:"test"
               }
             })
           )
           .then(response => {
-            console.log("Todo added successfully");
+            console.log("Todo added successfully",response);
             res.status(200).json({response});
           })
           .catch(error => {

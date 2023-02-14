@@ -20,7 +20,6 @@
  *Note: Please use localhost3000 to test this project. the built-in stackblitz view doesn't work
  */
 
-import { Index } from "faunadb";
 import React, { useState, useEffect } from "react";
 
 const Todo = () => {
@@ -29,6 +28,7 @@ const Todo = () => {
   const [editTodo, setEditTodo] = useState(null);
   const [inputValue, setInputValue] = useState("");
   const [filteredTodos,setFilteredTodos] = useState([]);
+  const [sortedTodos,setSortedTodos]=useState([]);
 
 
   useEffect(() => {
@@ -76,6 +76,18 @@ const Todo = () => {
       });
   }
 
+  const sortTodos=todo=>{
+      console.log(todo);
+
+      const sorted_td=todo.sort(function(a,b){
+        const dateObj1=new Date(a.createdAt).getTime();
+        const dateObj2=new Date(b.createdAt).getTime();
+        return dateObj2-dateObj1;
+      })
+      // console.log(sorted_td)
+      return sorted_td;
+  }
+
   const handleAdd = () => {
     if (inputValue) {
       const existingTodo = todos.find(todo => todo.todo === inputValue);
@@ -85,7 +97,7 @@ const Todo = () => {
           isCompleted: false,
           createdAt: new Date().toString()
         };
-        // console.log(newTodo);
+        console.log(newTodo);
         fetch("/api/todo", {
           method: "POST",
           headers: {
@@ -184,19 +196,23 @@ const Todo = () => {
       </> : <><button onClick={handleAdd}>Add Todo</button></>)}
     </div>
     <div>
-      {(filteredTodos.length!=0 || inputValue.length!=0)?filteredTodos.map(todo => (
+      {(filteredTodos.length!=0 || inputValue.length!=0)?sortTodos(filteredTodos).map(todo => (
         <li key={todo.id} style={{ textDecoration: todo.isCompleted ? "line-through" : "none" }}>
           <span onClick={() => handleTodoClick(todo)}>{todo.todo}</span>
+          <span >{todo.createdAt}</span>
           <button onClick={() => handleEditClick(todo)}>Edit</button>
           <button onClick={() => handleDelete(todo.id)}>Delete</button>
         </li>
-      )):todos.map(todo => (
+      )):sortTodos(todos).map(todo => (
         <li key={todo.id} style={{ textDecoration: todo.isCompleted ? "line-through" : "none" }}>
           <span onClick={() => handleTodoClick(todo)}>{todo.todo}</span>
+          <span >{todo.createdAt}</span>
           <button onClick={() => handleEditClick(todo)}>Edit</button>
           <button onClick={() => handleDelete(todo.id)}>Delete</button>
         </li>
       ))}
+
+      <button onClick={()=>sortTodos(todos)}>test sort</button>
     </div>
   </>)
 }
