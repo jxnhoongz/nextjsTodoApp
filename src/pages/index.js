@@ -28,7 +28,6 @@ const Todo = () => {
   const [editTodo, setEditTodo] = useState(null);
   const [inputValue, setInputValue] = useState("");
   const [filteredTodos,setFilteredTodos] = useState([]);
-  const [sortedTodos,setSortedTodos]=useState([]);
 
 
   useEffect(() => {
